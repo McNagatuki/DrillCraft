@@ -5,3 +5,12 @@ api-version: 1.15
 authors: [ Nagatuki ]
 description: プレイヤーが回転すると地面が掘れるプラグイン
 website: https://github.com/McNagatuki/DrillCraft
+
+commands:
+  drill:
+    description: drill plugin
+    permission: drill
+
+permissions:
+  drill:
+    default: op
