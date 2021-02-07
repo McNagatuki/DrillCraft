@@ -1,0 +1,7 @@
+name: DrillCraft
+version: ${project.version}
+main: com.github.mcnagatuki.drillcraft.DrillCraft
+api-version: 1.15
+authors: [ Nagatuki ]
+description: プレイヤーが回転すると地面が掘れるプラグイン
+website: https://github.com/McNagatuki/DrillCraft
