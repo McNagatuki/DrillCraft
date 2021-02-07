@@ -8,6 +8,7 @@ website: https://github.com/McNagatuki/DrillCraft
 
 commands:
   drill:
+    usage: Unknown command. Type "/drill help" for help.
     description: drill plugin
     permission: drill
 

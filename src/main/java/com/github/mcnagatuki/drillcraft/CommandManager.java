@@ -1,5 +1,6 @@
 package com.github.mcnagatuki.drillcraft;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -7,6 +8,7 @@ import org.bukkit.command.TabCompleter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class CommandManager implements CommandExecutor, TabCompleter {
     private boolean same(String a, String b) {
@@ -17,6 +19,23 @@ public class CommandManager implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length <= 0)
             return false;
+
+        // help
+        if (same(args[0], "help")) {
+            final String[] HELP_MESSAGE = {
+                    "-------------------- [ " + ChatColor.GREEN + "Drill Craft" + ChatColor.RESET + " ] --------------------",
+                    "/drill help : ヘルプ表示",
+                    "/drill start : プラグインを有効化",
+                    "/drill stop : プラグインを無効化",
+                    "/drill theta < double > : 一マス掘るまでに回転する角度",
+                    "/drill directed < true / false > : 右回りしかカウントしない ",
+                    "/drill droppable < true / false > : アイテムをドロップするかどうか",
+                    "/drill loadconfig : コンフィグの読み出し（リロード）",
+                    "-----------------------------------------------------",
+            };
+            Stream.of(HELP_MESSAGE).forEach(sender::sendMessage);
+            return true;
+        }
 
         // start
         if (same(args[0], "start")) {
@@ -78,6 +97,13 @@ public class CommandManager implements CommandExecutor, TabCompleter {
             return false;
         }
 
+        // loadconfig
+        if (same(args[0], "loadconfig")) {
+            DrillCraft.plugin.config.loadConfig();
+            sender.sendMessage("Config is loaded.");
+            return true;
+        }
+
         return false;
     }
 
@@ -86,11 +112,13 @@ public class CommandManager implements CommandExecutor, TabCompleter {
         List<String> result = new ArrayList<>();
 
         String[] cmds = {
+                "directed",
+                "droppable",
+                "help",
+                "loadconfig",
                 "start",
                 "stop",
                 "theta",
-                "directed",
-                "droppable",
         };
 
         if (args.length == 1) {

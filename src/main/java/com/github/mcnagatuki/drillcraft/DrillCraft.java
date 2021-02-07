@@ -5,6 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -109,5 +110,32 @@ public final class DrillCraft extends JavaPlugin implements Listener {
         boolean directed = false;
         boolean running = false;
         boolean droppable = false;
+
+        Config() {
+            loadConfig(false);
+        }
+
+        public void loadConfig() {
+            loadConfig(true);
+        }
+
+        public void loadConfig(boolean isReload) {
+            DrillCraft plugin = DrillCraft.plugin;
+
+            plugin.saveDefaultConfig();
+
+            if (isReload) {
+                plugin.reloadConfig();
+            }
+
+            FileConfiguration config = plugin.getConfig();
+
+            try {
+                theta = config.getDouble("theta");
+                directed = config.getBoolean("directed");
+                droppable = config.getBoolean("droppable");
+            } catch (Exception ignore) {
+            }
+        }
     }
 }
