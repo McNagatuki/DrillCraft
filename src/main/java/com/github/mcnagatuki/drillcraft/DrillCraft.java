@@ -79,25 +79,26 @@ public final class DrillCraft extends JavaPlugin implements Listener {
         float theta = sumTheta.containsKey(player) ? sumTheta.get(player) + diff : diff;
 
         // 掘削
-        while (theta >= config.theta) {
-            theta -= config.theta;
+        if (theta >= config.theta) {
+            theta = theta % config.theta;
 
             Location loc = player.getLocation();
             loc.setY(loc.getY() - 1);
 
             Block block = loc.getBlock();
 
-            // air is ignored
-            if (block.getType() == Material.AIR) continue;
+            // Exclude air
+            if (!(block.getType() == Material.AIR)) {
 
-            Sound sound = block.getSoundGroup().getBreakSound();
-            loc.getWorld().playSound(loc, sound, 1, 1);
+                Sound sound = block.getSoundGroup().getBreakSound();
+                loc.getWorld().playSound(loc, sound, 1, 1);
 
-            // アイテム化する場合としない場合
-            if (config.droppable) {
-                block.breakNaturally();
-            } else {
-                block.setType(Material.AIR);
+                // アイテム化する場合としない場合
+                if (config.droppable) {
+                    block.breakNaturally();
+                } else {
+                    block.setType(Material.AIR);
+                }
             }
         }
 
